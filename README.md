@@ -1,2 +1,2 @@
-# IT5016
-# I am changing the content of this README file
+# IT5016 Assessment 3: Programming Principles and Concepts
+# A collection of the coding that I've created
