@@ -1,0 +1,13 @@
+# Print statement
+print("hello whitecliffe")
+
+# Displays the zen of python using "this" import
+import this
+
+# Printing a string
+my_string = "Aotearoa - The Land of the Long Cloud."
+print(my_string)
+
+# Printing an integer
+my_int = int("123")
+print(my_int)
