@@ -1,16 +1,18 @@
+import random # Added for potential future use or if needed by other parts not visible in snippet
+
 # Simple Library System
 #Wk7 Lab
 
 # Define the classes
 class Book:
   """Represents a book with a title, author, and availability status."""
-  def __init__self, title: str, author: str):
+  def __init__(self, title: str, author: str):
     self.title = title
     self.author = author
     self.is_borrowed = False # False means available, True means borrowed
 
   def __str__(self):
-    status = "Borrowed" is self.is_borrowed else "Available"
+    status = "Borrowed" if self.is_borrowed else "Available"
     return f"{self.title} by {self.author} - {status}"
 
 class Member:
@@ -63,25 +65,25 @@ class Library:
       if book.title.lower() == book_title.lower():
         if book.is_borrowed:
           print(f"Sorry, '{book.title}' is currently borrowed.")
-          return
-            # Mark as borrowed and assign to member
-            book.is_borrowed = True
-            member.borrow_book(book)
-            print(f"Success: '{book.title}' was borrowed by {member.name}.")
-            return
+          return # Exit if already borrowed
+        # If not borrowed, proceed to mark as borrowed and assign
+        book.is_borrowed = True
+        member.borrow_book(book)
+        print(f"Success: '{book.title}' was borrowed by {member.name}.")
+        return # Exit after successful borrowing
 
     print(f"Error: Book '{book_title}' not found in the library.")
 
-def return_book(self, member: Member, book_title: str):
-  """Marks a book as returned and available again"""
-  for book in member.borrowed_books:
-    if book.title.lower() == book_title.lower():
-      book.is_borrowed = False
-      member.return_book(book)
-      print(f"Success: '{book.title}' was returned by {member.name}.")
-      return
+  def return_book(self, member: Member, book_title: str): # Moved and indented into Library class
+    """Marks a book as returned and available again"""
+    for book in member.borrowed_books:
+      if book.title.lower() == book_title.lower():
+        book.is_borrowed = False
+        member.return_book(book)
+        print(f"Success: '{book.title}' was returned by {member.name}.")
+        return
 
-  print(f"Error: {member.name} has not borrowed a book titled '{book_title}'.")
+    print(f"Error: {member.name} has not borrowed a book titled '{book_title}'.")
 
 # ----------------------------------------------------
 # Demonstration / Testing
