@@ -1,0 +1,82 @@
+# IT5016 Assessment 2 - Part A
+# Software program development to professional working brief
+
+# Global counter for unique Requisition IDs
+counter = 1
+
+# Task 1
+def staff_info():
+    global counter
+
+    date = input("Enter Date: ")
+    staff_id = input("Enter Staff ID: ")
+    staff_name = input("Enter Staff Name: ")
+
+    requisition_id = 10000 + counter
+    counter += 1
+
+    print("\nPrinting Staff Information:")
+    print(f"Date: {date}")
+    print(f"Staff ID: {staff_id}")
+    print(f"Staff Name: {staff_name}")
+    print(f"Requisition ID: {requisition_id}\n")
+
+    return {
+        "date": date,
+        "staff_id": staff_id,
+        "staff_name": staff_name,
+        "requisition_id": requisition_id
+    }
+
+# Task 2
+def requisitions_total():
+    info = staff_info()
+
+    total = 0.0
+    print("Enter requisition items (type 'done' when finished):")
+    while True:
+        item_name = input("Item Name: ").strip()
+        if item_name.lower() == 'done' or item_name == "":
+            break
+        try:
+            price = float(input(f"Price for {item_name}: $").replace('$', ''))
+            total += price
+        except ValueError:
+            print("Please enter a numeric price.")
+
+    return info, total
+
+# Task 3
+def requisition_approval():
+    info, total = requisitions_total()
+
+    status = "Pending"
+    approval_ref = "N/A"
+
+    if total < 500:
+        status = "Approved"
+        req_id_str = str(info["requisition_id"])
+        approval_ref = f"{info['staff_id']}{req_id_str[-3:]}"
+
+    info["total"] = total
+    info["status"] = status
+    info["approval_ref"] = approval_ref
+
+    return info
+
+# Task 4
+def display_requisitons():
+    info = requisition_approval()
+
+    print("\nPrinting Requisitions:")
+    print(f"Date: {info['date']}")
+    print(f"Requisition ID: {info['requisition_id']}")
+    print(f"Staff ID: {info['staff_id']}")
+    print(f"Staff Name: {info['staff_name']}")
+    print(f"Total: ${info['total']:g}")
+    print(f"Status: {info['status']}")
+    print(f"Approval Reference Number: {info['approval_ref']}")
+
+# Run the complete program
+if __name__ == "__main__":
+    display_requisitons()
