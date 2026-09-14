@@ -1,0 +1,25 @@
+# Dictionaries
+# Challenge 1.1, 1.2, and 1.3
+
+states = {
+"Oregon": "OR",
+"Florida": "FL",
+"California": "CA",
+"New York": "NY",
+"Michigan": "MI"
+}
+states["WY"] = "Wyoming"
+more_states = {
+"Alabama": "AL",
+"Alaska": "AK"
+}
+
+print(states)
+
+states.update(more_states)
+
+print(states)
+
+# Test Case Assertion
+# Assertion 1: print("{'Florida': 'FL', 'WY': 'Wyoming', 'California': 'CA', 'New York': 'NY', 'Oregon': 'OR', 'Michigan': 'MI'}\n")
+# Assertion 2: print("{'Florida': 'FL', 'WY': 'Wyoming', 'Alabama': 'AL', 'California': 'CA', 'Alaska': 'AK', 'New York': 'NY', 'Oregon': 'OR', 'Michigan': 'MI'}\n")
