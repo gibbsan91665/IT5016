@@ -1,0 +1,20 @@
+# Dictionaries - Summing Dictionary Values
+# Challenge 1.4
+
+print('\nSumming dictionary values')
+
+# Initialise dictionary 1
+city_dict1 = {'AKL':1495, 'CHC':389.7, 'DUD':118.5, 'WLG':405}
+print('\nCity Dictionary 1:',city_dict1)
+
+# Sum values in the dictionary
+sum = 0
+for popn in city_dict1.values():
+  sum += popn
+
+print('\nTotal population in the major cities (in thousands):')
+print(sum)
+
+# Test Case Assertion
+# Assertion 1: output = Total population in the major cities (in thousands):
+# 2408.2
