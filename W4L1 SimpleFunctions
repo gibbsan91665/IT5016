@@ -1,0 +1,15 @@
+# simple_functions.py
+# week4 - Lab1
+
+def greet():
+  print("Welcome to the new and improved land of Integermania!")
+
+def add_numbers():
+  x = int(input("Enter a number: "))
+  y = int(input("Enter another number: "))
+  add_numbers = x + y
+  print(f"The sum is: {add_numbers}")
+
+# Call the function
+greet()
+add_numbers()
