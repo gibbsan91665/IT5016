@@ -1,0 +1,171 @@
+# IT5016 Assessment 2 - Part B
+# Software program development to professional working brief
+
+"""
+Purchase Requisition System Prototype (OOP Version)
+---------------------------------------------------
+Demonstrates:
+1. Class creation and encapsulation
+2. Initialization with __init__
+3. Dedicated methods for data capture, computation, decision-making,
+   tracking statistics, and displaying results.
+4. Testing with multiple instances.
+"""
+
+class RequisitionSystem:
+    # Class-level variables shared across all instances (Tracking & Statistics)
+    counter = 1
+    total_requisitions = 0
+    approved_count = 0
+    pending_count = 0
+    grand_total_value = 0.0
+
+    def __init__(self):
+        """
+        Initializes common instance attributes and assigns a unique Requisition ID.
+        """
+        self.date = ""
+        self.staff_id = ""
+        self.staff_name = ""
+        # Unique ID generated using class counter + 10000
+        self.requisition_id = 10000 + RequisitionSystem.counter
+        RequisitionSystem.counter += 1
+
+        self.items = []
+        self.total = 0.0
+        self.status = "Pending"
+        self.approval_ref = "N/A"
+
+    def staff_info(self):
+        """
+        METHOD 1: Data Capture
+        Collects staff details and stores them in instance attributes.
+        """
+        print("--- Step 1: Data Capture (Staff Info) ---")
+        self.date = input("Enter Date (e.g., 03/04/2024): ").strip()
+        self.staff_id = input("Enter Staff ID (e.g., FN19): ").strip()
+        self.staff_name = input("Enter Staff Name: ").strip()
+
+        print("\nPrinting Staff Information:")
+        print(f"Date: {self.date}")
+        print(f"Staff ID: {self.staff_id}")
+        print(f"Staff Name: {self.staff_name}")
+        print(f"Requisition ID: {self.requisition_id}\n")
+
+        return {
+            "date": self.date,
+            "staff_id": self.staff_id,
+            "staff_name": self.staff_name,
+            "requisition_id": self.requisition_id
+        }
+
+    def requisitions_total(self):
+        """
+        METHOD 2: Computation
+        Calls staff_info(), collects item names and prices, and calculates total.
+        """
+        # Call staff_info as required
+        self.staff_info()
+
+        print("--- Step 2: Computation (Requisition Items) ---")
+        print("Enter items (type 'done' when finished):")
+
+        self.total = 0.0
+        while True:
+            item_name = input("Item Name: ").strip()
+            if item_name.lower() == 'done' or item_name == "":
+                break
+
+            while True:
+                price_input = input(f"Price for {item_name}: $").strip().replace('$', '')
+                try:
+                    price = float(price_input)
+                    if price < 0:
+                        print("Price cannot be negative.")
+                        continue
+                    self.items.append((item_name, price))
+                    self.total += price
+                    break
+                except ValueError:
+                    print("Invalid input! Please enter a numerical price.")
+
+        print(f"\n${self.total:g}\n")
+        return self.total
+
+    def requisition_approval(self):
+        """
+        METHOD 3: Decision-Making & System-Wide Tracking
+        Calls requisitions_total(), applies $500 threshold rule,
+        and updates system-wide statistics.
+        """
+        # Call requisitions_total
+        self.requisitions_total()
+
+        # Decision Logic: Total < $500 auto-approves
+        if self.total < 500:
+            self.status = "Approved"
+            req_id_str = str(self.requisition_id)
+            # Rule: Staff ID + last 3 digits of Requisition ID
+            self.approval_ref = f"{self.staff_id}{req_id_str[-3:]}"
+            RequisitionSystem.approved_count += 1
+        else:
+            self.status = "Pending"
+            RequisitionSystem.pending_count += 1
+
+        # Track system-wide entry metrics
+        RequisitionSystem.total_requisitions += 1
+        RequisitionSystem.grand_total_value += self.total
+
+        print("--- Decision Output ---")
+        print(f"Total: ${self.total:g}")
+        print(f"Status: {self.status}")
+        print(f"Approval Reference Number: {self.approval_ref}\n")
+
+    def display_requisitons(self):
+        """
+        METHOD 4: Displaying Results
+        Displays complete requisition breakdown.
+        """
+        print("==========================================")
+        print("Printing Requisitions:")
+        print(f"Date: {self.date}")
+        print(f"Requisition ID: {self.requisition_id}")
+        print(f"Staff ID: {self.staff_id}")
+        print(f"Staff Name: {self.staff_name}")
+        print(f"Total: ${self.total:g}")
+        print(f"Status: {self.status}")
+        print(f"Approval Reference Number: {self.approval_ref}")
+        print("==========================================\n")
+
+    @classmethod
+    def display_statistics(cls):
+        """
+        METHOD 5: Tracking Entries & Generating Statistics/Summary
+        Displays aggregate metrics across all processed instances.
+        """
+        print("\n==========================================")
+        print("     SYSTEM REQUISITION STATISTICS        ")
+        print("==========================================")
+        print(f"Total Requisitions Submitted : {cls.total_requisitions}")
+        print(f"Total Requisitions Approved  : {cls.approved_count}")
+        print(f"Total Requisitions Pending   : {cls.pending_count}")
+        print(f"Grand Total Value           : ${cls.grand_total_value:,.2f}")
+        print("==========================================\n")
+
+
+# =====================================================================
+# TESTING WITH MULTIPLE INSTANCES
+# =====================================================================
+if __name__ == "__main__":
+    print("=== TESTING INSTANCE 1 (Under $500 - Approved) ===")
+    req1 = RequisitionSystem()
+    req1.requisition_approval()
+    req1.display_requisitons()
+
+    print("=== TESTING INSTANCE 2 (Over $500 - Pending) ===")
+    req2 = RequisitionSystem()
+    req2.requisition_approval()
+    req2.display_requisitons()
+
+    # Display aggregate system statistics tracking both entries
+    RequisitionSystem.display_statistics()
